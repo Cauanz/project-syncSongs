@@ -5,6 +5,7 @@ app = Flask(__name__)
 @app.route('/')
 def index():
   # TODO - TERMINAR ISSO, ADICIONAR ROTA QUE ANALISA/E SEI LÁ MAIS O QUE A PASTA COM MÚSICAS, GERA LISTA "DIGITALIZADA" ETC...
+  # TODO - TAMBÉM APRENDER A CARREGAR PASTA E LER ARQUIVOS
   return render_template('home.html')
 
 

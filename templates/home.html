@@ -3,5 +3,10 @@
 {% block body %}
   <div class="content">
     <h1>Home</h1>
+
+
+    <form action="/check-folder" method="post">
+      <input type="file" name="selectfolder" id="selectfolder">
+    </form>
   </div>
 {% endblock %}
