@@ -1,13 +1,24 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, url_for, request, redirect
 
 app = Flask(__name__)
 
+folder = []
+
 @app.route('/')
 def index():
-  # TODO - TERMINAR ISSO, ADICIONAR ROTA QUE ANALISA/E SEI LÁ MAIS O QUE A PASTA COM MÚSICAS, GERA LISTA "DIGITALIZADA" ETC...
   # TODO - TAMBÉM APRENDER A CARREGAR PASTA E LER ARQUIVOS
-  return render_template('home.html')
+  songs = []
+  songs = folder
+  return render_template('home.html', songs=songs)
 
+@app.route('/check-folder', methods=["GET", "POST"])
+def check_folder():
+
+  if request.method == 'POST':
+    files = request.form['selectfolder']
+    # TODO - CONTINUAR DESCOBRINDO COMO RECEBER A PASTA/ARQUIVOS, SALVAR ELES LOCALMENTE (TALVEZ PRECISE DE UM DB SIMPLES) E DAI FAZER AS COISAS
+  
+  return redirect('/')
 
 
 

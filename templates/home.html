@@ -1,12 +1,32 @@
-{% block head %} <title>Home</title> {% endblock %}
+{% extends 'base.html' %} 
+
+{% block head %} <title>Home</title> {% endblock %} 
 
 {% block body %}
-  <div class="content">
-    <h1>Home</h1>
+<div class="content">
+  <h1>SyncSongs</h1>
 
-
+  {% if songs|length < 1 %}
     <form action="/check-folder" method="post">
-      <input type="file" name="selectfolder" id="selectfolder">
+      <input type="file" webkitdirectory multiple name="selectfolder" id="selectfolder" />
+      <input type="submit" value="Upload Folder">
     </form>
-  </div>
+    {% else %}
+    <table>
+      <tr>
+        <td>Name</td>
+        <td>Hash</td>
+        <td>Status</td>
+      </tr>
+      <tr>
+        {% for song in songs %}
+          <td>{{ song.name }}</td>
+          <td>{{ song.hash }}</td>
+          <td>{{ song.status }}</td>
+        {% endfor %}
+      </tr>
+    </table>
+    {% endif %}
+</div>
+
 {% endblock %}
