@@ -7,24 +7,27 @@
   <h1>SyncSongs</h1>
 
   {% if songs|length < 1 %}
-    <form action="/check-folder" method="post">
+    <form action="/check-folder" method="post" enctype="multipart/form-data"> 
       <input type="file" webkitdirectory multiple name="selectfolder" id="selectfolder" />
       <input type="submit" value="Upload Folder">
+      <!-- TODO - ADICIONAR LOADING ENQUANTO ELE FAZ UPLOAD DAS MÚSICAS/PASTA -->
     </form>
     {% else %}
     <table>
       <tr>
+        <td>Path</td>
         <td>Name</td>
         <td>Hash</td>
         <td>Status</td>
       </tr>
-      <tr>
-        {% for song in songs %}
-          <td>{{ song.name }}</td>
+      {% for song in songs %}
+        <tr>
+          <td>{{ song.pathname }}</td>
+          <td>{{ song.filename }}</td>
           <td>{{ song.hash }}</td>
           <td>{{ song.status }}</td>
+        </tr>
         {% endfor %}
-      </tr>
     </table>
     {% endif %}
 </div>
