@@ -31,13 +31,29 @@ block body %}
       <td>Name</td>
       <td>Hash</td>
       <td>Status</td>
+      <td>Options</td>
     </tr>
     {% for song in songs %}
     <tr>
       <td>{{ song.pathname }}</td>
       <td>{{ song.filename }}</td>
       <td>{{ song.hash }}</td>
-      <td>{{ song.status }}</td>
+      {% if song.status == 'Mapped' %}
+      <td class="mappedSong">{{ song.status }}</td>
+      {% endif %}
+      {% if song.status == 'Duplicated' %}
+      <td class="duplicatedSong">{{ song.status }}</td>
+      {% endif %}
+      {% if song.status == 'New' %}
+      <td class="newSong">{{ song.status }}</td>
+      {% endif %}
+      {% if song.status == 'Removed' %}
+      <td class="removedSong">{{ song.status }}</td>
+      {% endif %}
+      {% if song.options %}
+      <td>{{ song.options }}</td>
+      {% endif %}
+      <!-- TODO - CONTINUAR TRABALHANDO A PARTE DE OPÇÕES DEPENDENDO O STATUS -->
     </tr>
     {% endfor %}
   </table>

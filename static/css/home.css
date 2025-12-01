@@ -14,7 +14,7 @@ body {
 }
 
 .content {
-  width: 40rem;
+  width: 80rem;
   height: 30rem;
   display: flex;
   flex-direction: column;
@@ -56,4 +56,21 @@ label {
 input[type="submit"],
 input[type="file"] {
   padding: 5px;
+}
+
+
+.mappedSong {
+  background-color: orange;
+}
+
+.duplicatedSong {
+  background-color: yellow;
+}
+
+.newSong {
+  background-color: green;
+}
+
+.removedSong {
+  background-color: red;
 }

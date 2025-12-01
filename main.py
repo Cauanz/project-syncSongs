@@ -15,6 +15,7 @@ def index():
 
     if hash in seen_hashes:
       song['status'] = 'Duplicated'
+      song['options'] = 'Remove'
       songs.append(song)
       continue
 
@@ -47,7 +48,7 @@ def check_folder():
     except:
       print('An exception occurred')
 
-    
+
   return redirect('/')
 # TODO - CONTINUAR DESCOBRINDO COMO RECEBER A PASTA/ARQUIVOS, SALVAR ELES LOCALMENTE (TALVEZ PRECISE DE UM DB SIMPLES) E DAI FAZER AS COISAS
 
