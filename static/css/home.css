@@ -48,6 +48,12 @@ h1 {
   text-align: center;
 }
 
-input {
+label {
+  display: flex;
+  flex-direction: column;
+}
+
+input[type="submit"],
+input[type="file"] {
   padding: 5px;
 }
