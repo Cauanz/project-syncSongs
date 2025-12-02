@@ -1,9 +1,10 @@
 from flask import Flask, render_template, url_for, request, redirect
-from utils import hash_song
+from utils import hash_song, save_snapshot, analyze_song
 
 app = Flask(__name__)
 
 folder = []
+old_snapshot = ""
 
 @app.route('/')
 def index():
@@ -30,29 +31,28 @@ def check_folder():
   temp_files = []
 # TODO CRIAR UM "ESTADO" UMA VARIAVEL QUE MONITORA QUANDO ESTÁ CARREGANDO PARA ENVIAR E RENDERIZAR O LOADING NO FRONTEND
 
+
   if request.method == 'POST':
     files = request.files.getlist('selectfolder')
 
     try:
       for file in files:
         temp_files.append(file)
-
         # file.read() # RETORNA OS BYTES DO ARQUIVO
-        newFile = {}
-        newFile['pathname'] = file.filename.split('/')[0]
-        newFile['filename'] = file.filename.split('/')[1]
-        newFile['hash'] = hash_song(file)
-        newFile['status'] = 'Mapped'
 
-        folder.append(newFile)
-    except:
-      print('An exception occurred')
+        newSong = analyze_song(file)
 
+        folder.append(newSong)
+    except Exception as e:
+      print('An exception occurred when analyzing the folder', e)
+
+    save_snapshot(folder)
 
   return redirect('/')
-# TODO - CONTINUAR DESCOBRINDO COMO RECEBER A PASTA/ARQUIVOS, SALVAR ELES LOCALMENTE (TALVEZ PRECISE DE UM DB SIMPLES) E DAI FAZER AS COISAS
 
 
+
+# TODO - SE MÚSICA X EXISTIR NO SNAPSHOT ANTERIOR, MUDA STATUS PARA EXISTENTE/NEW ETC...
 
 
 if __name__ == '__main__':

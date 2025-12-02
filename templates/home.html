@@ -3,29 +3,43 @@ block body %}
 <div class="content">
   <h1>SyncSongs</h1>
 
-  {% if songs|length < 1 %}
-  <form action="/check-folder" method="post" enctype="multipart/form-data" id="folderForm">
-    <label for="selectfolder">
-      Selecione a pasta:
-      <input
-        type="file"
-        webkitdirectory
-        multiple
-        name="selectfolder"
-        id="selectfolder"
-        required
-      />
-    </label>
+  <div class="formsContainer">
+    <form
+      action="/check-folder"
+      method="post"
+      enctype="multipart/form-data"
+      id="folderForm"
+    >
+      <label for="selectfolder">
+        Selecione a pasta:
+        <input
+          type="file"
+          webkitdirectory
+          multiple
+          name="selectfolder"
+          id="selectfolder"
+          required
+        />
+      </label>
 
-    <input type="submit" value="Upload Folder" name="submitBtn" />
-    <!-- TODO - ADICIONAR LOADING ENQUANTO ELE FAZ UPLOAD DAS MÚSICAS/PASTA -->
-  </form>
-  {% else %}
+      <input type="submit" value="Upload Folder" name="submitBtn" />
+      <!-- TODO - ADICIONAR LOADING ENQUANTO ELE FAZ UPLOAD DAS MÚSICAS/PASTA -->
+    </form>
+    <div class="files"></div>
+  </div>
+
+  <input type="button" value="Selecionar snapshot" />
+  <!-- TODO - FAZER ESSE BOTÃO RENDERIZAR OUTRA PÁGINA COM CARDS DE CADA SNAPSHOT, E QUANDO SELECIONADO VOLTA PARA CÁ -->
+  <!-- TODO - TAMBÉM ADICIONAR MARCAS DE VERIFICADO PARA CADA ETAPA, FAZER UPLOAD DA PASTA, SELECIONAR SNAPSHOT ETC... -->
+
+  
+  <!-- TODO - IF ALGO QUE MONITORA SE A SNAPSHOT FOI ESCOLHIDA E A PASTA ENVIADA FOR TRUE ENTÃO ELE DAI SIM RENDERIZA A TABELA -->
+  {% if songs|length < 1 %} {% else %}
 
   <!-- <input type="button" value="back" id="back"/>  -->
   <!-- TODO - TERMINAR ISSO DEPOIS -->
 
-  <table id="table">
+  <!-- <table id="table">
     <tr>
       <td>Path</td>
       <td>Name</td>
@@ -53,10 +67,10 @@ block body %}
       {% if song.options %}
       <td>{{ song.options }}</td>
       {% endif %}
-      <!-- TODO - CONTINUAR TRABALHANDO A PARTE DE OPÇÕES DEPENDENDO O STATUS -->
     </tr>
     {% endfor %}
-  </table>
+  </table> -->
+  <!-- TODO - CONTINUAR TRABALHANDO A PARTE DE OPÇÕES DEPENDENDO O STATUS -->
   {% endif %}
 </div>
 

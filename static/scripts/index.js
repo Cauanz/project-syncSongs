@@ -9,3 +9,12 @@
 //   form.style.display = 'flex';
 //   table.style.display = "None";
 // })
+
+
+let uploadInput = document.querySelector("#selectfolder");
+let filesText = document.querySelector(".files");
+
+uploadInput.addEventListener("change", (e) => {
+  files = e.target.files;
+  filesText.textContent = files.length + " files found";
+})
