@@ -26,9 +26,9 @@ block body %}
       <!-- TODO - ADICIONAR LOADING ENQUANTO ELE FAZ UPLOAD DAS MÚSICAS/PASTA -->
     </form>
     <div class="files"></div>
-  </div>
 
-  <input type="button" value="Selecionar snapshot" />
+
+  <input type="button" value="Selecionar snapshot" onclick="getSnapshots()" />
   <!-- TODO - FAZER ESSE BOTÃO RENDERIZAR OUTRA PÁGINA COM CARDS DE CADA SNAPSHOT, E QUANDO SELECIONADO VOLTA PARA CÁ -->
   <!-- TODO - TAMBÉM ADICIONAR MARCAS DE VERIFICADO PARA CADA ETAPA, FAZER UPLOAD DA PASTA, SELECIONAR SNAPSHOT ETC... -->
 
@@ -72,7 +72,7 @@ block body %}
   </table> -->
   <!-- TODO - CONTINUAR TRABALHANDO A PARTE DE OPÇÕES DEPENDENDO O STATUS -->
   {% endif %}
-</div>
+  </div>
 
 <script src="{{ url_for('static', filename='scripts/index.js') }}"></script>
 {% endblock %}

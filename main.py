@@ -1,5 +1,7 @@
 from flask import Flask, render_template, url_for, request, redirect
 from utils import hash_song, save_snapshot, analyze_song
+import os
+import json
 
 app = Flask(__name__)
 
@@ -50,9 +52,16 @@ def check_folder():
 
   return redirect('/')
 
-
-
 # TODO - SE MÚSICA X EXISTIR NO SNAPSHOT ANTERIOR, MUDA STATUS PARA EXISTENTE/NEW ETC...
+
+
+@app.route('/choose-snapshot', methods=['POST', 'GET'])
+def choose_snapshot():
+
+  if request.method == 'GET':
+    files = os.listdir('snapshots')
+    return json.dumps(files)
+  redirect('/')
 
 
 if __name__ == '__main__':

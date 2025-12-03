@@ -53,11 +53,17 @@ label {
   flex-direction: column;
 }
 
-input[type="submit"],
-input[type="file"] {
+input {
   padding: 5px;
 }
 
+input[type="file"] {
+  font-size: 0;
+}
+
+input[type="file"]::file-selector-button {
+  font-size: 15px;
+}
 
 .mappedSong {
   background-color: orange;
