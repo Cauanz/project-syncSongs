@@ -10,6 +10,14 @@
 //   table.style.display = "None";
 // })
 
+// TODO - FAZER ESSA FUNÇÃO QUE SELECIONA O CARD QUE FOI "CLICADO, CHECKED"
+let cards = document.querySelectorAll(".snapCard");
+cards.forEach((card) => {
+  card.addEventListener("click", (e) => {
+    console.log(e.target + " selected");
+  });
+});
+
 
 let uploadInput = document.querySelector("#selectfolder");
 let filesText = document.querySelector(".files");
@@ -29,7 +37,6 @@ async function getSnapshots() {
   })
   const res = await snaps.json();
   
-
   if(res) {
     document.querySelector(".formsContainer").style.display = 'None';
 
@@ -37,15 +44,28 @@ async function getSnapshots() {
     cardsContainer.classList.add("cardsContainer");
 
     for (let i = 0; i < res.length; i++) {
-      const snapCard = document.createElement("div");
+      // const snapCard = document.createElement("div");
+      const snapCard = document.createElement("input");
+      snapCard.type = 'radio'
       snapCard.classList.add("snapCard");
-      const txtLink = document.createElement("a");
-      txtLink.textContent = snap;
-      snapCard.appendChild(txtLink);
+      snapCard.id = `card${i}`
+      snapCard.name = "cards"
+      snapCard.value = i;
+      snapCard.hidden = true;
+
+      const label = document.createElement("label");
+      label.htmlFor = `card${i}`;
+      label.classList.add("card")
+      label.textContent = res[i];
+
+      // const txtLink = document.createElement("a");
+      // txtLink.textContent = res[i];
+      // snapCard.appendChild(txtLink);
       document.querySelector(".content").appendChild(snapCard);
+      document.querySelector(".content").appendChild(label);
     }
 
-    // TODO - NÃO SEI COMO FAZER ISSO
+    // TODO - NÃO SEI COMO FAZER ISSO NEM OQUE FAZER :(
 
     // res.forEach(snap => {
     //   const snapCard = document.createElement('div');
@@ -59,4 +79,5 @@ async function getSnapshots() {
   }
 
 }
+
 
