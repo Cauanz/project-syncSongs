@@ -10,20 +10,17 @@
 //   table.style.display = "None";
 // })
 
-let selectedFolder = [];
-let selectedSnapshot = "";
+let state = {
+  selectedFolder: null,
+  selectedSnapshot: null,
+};
 
 let uploadInput = document.querySelector("#selectfolder");
 let filesText = document.querySelector(".files");
+let uploadBtn = document.querySelector("#submitBtn").disabled = true;
+let snapListenerAdded = false;
 
-uploadInput.addEventListener("change", (e) => {
-  files = e.target.files;
-  filesText.textContent = files.length + " files found";
-})
-
-
-
-
+//* FUNÇÃO QUE É CHAMADA PARA REQUISITAR SNAPSHOTS E CRIAR CARDS/RENDERIZAR ELES
 async function getSnapshots() {
   const snaps = await fetch("/choose-snapshot", {
     method: 'GET'
@@ -37,7 +34,6 @@ async function getSnapshots() {
     cardsContainer.classList.add("cardsContainer");
 
     for (let i = 0; i < res.length; i++) {
-      // const snapCard = document.createElement("div");
       let split = res[i].split('T')
       const date = new Date(
         split[0] + "T" + split[1].replaceAll("-", ":").replace(".json", "")
@@ -66,10 +62,10 @@ async function getSnapshots() {
     btn.type = 'button';
     btn.value = 'Selecionar'
     btn.id = "SelectSnapBtn";
+    btn.onclick = selectSnap();
     cardsContainer.appendChild(btn);
     
     // TODO - NÃO SEI COMO FAZER ISSO NEM OQUE FAZER :(
-
     // res.forEach(snap => {
     //   const snapCard = document.createElement('div');
     //   snapCard.classList.add("snapCard");
@@ -83,32 +79,74 @@ async function getSnapshots() {
 
 }
 
+//* FUNÇÃO QUE É CHAMADA QUANDO O BOTÃO DE SELECIONAR SNAPSHOT É PRESSIONADO, ADICIONANDO O VALOR/INDEX DO SNAP A VARIAVEL/STATE SELECTEDSNAPSHOT
+function selectSnap() {
+  const content = document.querySelector(".content");
+  state.selectedSnapshot = "";
+  
+  if (snapListenerAdded) return; // EVITAR CRIAR OUTRO LISTENER NO CONTENT
+  
+  content.addEventListener("click", (e) => {
+    snapListenerAdded = true;
 
-// * - NÃO CONSEGUI PEGAR O INPUT, ENTÃO ESTOU PEGANDO PELO DOCUMENTO
-document.addEventListener('change', (e) => {
-  if(e.target.name === 'cards'){
-
-    const selectSnap = document.querySelector("#SelectSnapBtn");
-    selectSnap.addEventListener("click", () => {
-      //TODO - ADICIONAR VERIFICAÇÕES, ETC...
-      selectedSnapshot = e.target.value;
-
-      document.querySelector(".cardsContainer").style.display = "None";
-      document.querySelector(".formsContainer").style.display = "Flex";
-    })
+    const cards = document.querySelectorAll(".snapCard");
+    const selectBtn = e.target.matches("#SelectSnapBtn");
     
+    if (selectBtn){
+      cards.forEach((card) => {
+        if(card.checked) {
+          state.selectedSnapshot = card.value;
+
+          const cardsContainer = document.querySelector(".cardsContainer");
+          if(cardsContainer) cardsContainer.remove();
+          document.querySelector(".formsContainer").style.display = "Flex";
+
+          if (state.selectedFolder && state.selectedSnapshot) {
+            uploadBtn.disabled = false;
+          }
+        }
+      });
+      return;
+    }
+  });
+}
+
+
+
+// TODO - TERMINAR AGORA, E VER SE ENVIA TUDO, ADICIONAR VERIFICAÇÕES QUE TODOS TEM QUE SER SELECIONADOS ETC...
+// * CAPTURA O INPUT OCULTO PARA ENVIAR O SNAPSHOT SELECIONADO JUNTO
+// document.querySelector("#folderForm").addEventListener("submit", function (e) {
+//   let hidden = document.querySelector("#selectsnapshot");
+//   hidden.value = selectedSnapshot;
+// });
+
+
+
+// TODO - EU NÃO COLOQUEI UMA FORMA DE ADICIONAR OS ARQUIVOS/PASTA A VARIAVEL SELECTEDFOLDER. EM CONSEQUENCIA É POR ISSO QUE O BOTÃO NUNCA DESBLOQUEIA
+uploadInput.addEventListener("change", (e) => {
+  files = e.target.files;
+  filesText.textContent = files.length + " files found";
+
+  state.selectedFolder = files;
+});
+
+function updateUploadBtn() {
+  const ready = state.selectedFolder !== null && state.selectedSnapshot !== null;
+  uploadBtn.disabled = !ready;
+}
+
+document.addEventListener("change", (e) => {
+  if (e.target.matches("#selectfolder")) {
+    updateUploadBtn();
+    console.log(state.selectedFolder);
+    console.log("clicado");
   }
 })
 
-// TODO - TERMINAR AGORA, E VER SE ENVIA TUDO, ADICIONAR VERIFICAÇÕES QUE TODOS TEM QUE SER SELECIONADOS ETC...
-// * CRIA UM INPUT OCULTO PARA ENVIAR O SNAPSHOT SELECIONADO JUNTO
-document.querySelector("#folderForm").addEventListener("submit", function (e) {
-  let hidden = document.querySelector("input[name='snapshot']");
-  if (!hidden) {
-    hidden = document.createElement("input");
-    hidden.type = "hidden";
-    hidden.name = "snapshot";
-    this.appendChild(hidden);
+document.addEventListener("click", (e) => {
+  if (e.target.matches("#SelectSnapBtn")) {
+    updateUploadBtn();
+    console.log(state.selectedSnapshot);
+    console.log("mudados");
   }
-  hidden.value = selectedSnapshot;
 });
