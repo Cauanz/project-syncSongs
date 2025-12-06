@@ -10,14 +10,14 @@
 //   table.style.display = "None";
 // })
 
-let state = {
+const state = {
   selectedFolder: null,
   selectedSnapshot: null,
 };
 
 let uploadInput = document.querySelector("#selectfolder");
 let filesText = document.querySelector(".files");
-let uploadBtn = document.querySelector("#submitBtn").disabled = true;
+let uploadBtn = document.querySelector("#submitBtn")
 let snapListenerAdded = false;
 
 //* FUNÇÃO QUE É CHAMADA PARA REQUISITAR SNAPSHOTS E CRIAR CARDS/RENDERIZAR ELES
@@ -45,7 +45,7 @@ async function getSnapshots() {
       snapCard.classList.add("snapCard");
       snapCard.id = `card${i}`
       snapCard.name = "cards"
-      snapCard.value = i;
+      snapCard.value = res[i].replace(".json", "");
       snapCard.hidden = true;
 
       const label = document.createElement("label");
@@ -91,27 +91,23 @@ function selectSnap() {
 
     const cards = document.querySelectorAll(".snapCard");
     const selectBtn = e.target.matches("#SelectSnapBtn");
+    const hiddenInput = document.querySelector("#selectsnapshot");
+    const cardsContainer = document.querySelector(".cardsContainer");
     
     if (selectBtn){
       cards.forEach((card) => {
         if(card.checked) {
           state.selectedSnapshot = card.value;
+          hiddenInput.value = card.value
 
-          const cardsContainer = document.querySelector(".cardsContainer");
           if(cardsContainer) cardsContainer.remove();
           document.querySelector(".formsContainer").style.display = "Flex";
-
-          if (state.selectedFolder && state.selectedSnapshot) {
-            uploadBtn.disabled = false;
-          }
         }
       });
       return;
     }
   });
 }
-
-
 
 // TODO - TERMINAR AGORA, E VER SE ENVIA TUDO, ADICIONAR VERIFICAÇÕES QUE TODOS TEM QUE SER SELECIONADOS ETC...
 // * CAPTURA O INPUT OCULTO PARA ENVIAR O SNAPSHOT SELECIONADO JUNTO
@@ -122,11 +118,30 @@ function selectSnap() {
 
 
 
-// TODO - EU NÃO COLOQUEI UMA FORMA DE ADICIONAR OS ARQUIVOS/PASTA A VARIAVEL SELECTEDFOLDER. EM CONSEQUENCIA É POR ISSO QUE O BOTÃO NUNCA DESBLOQUEIA
+
+// document.getElementById('folderForm').addEventListener('submit', (e) => {
+//   e.preventDefault();
+//   console.log(e.target);
+//   const formData = new FormData(e.target);
+
+//   try {
+//     fetch('/check-folder', {
+//       method: 'POST',
+//       body: formData
+//     })
+//     .then(response => response.json())
+//     .then(data => {
+//       console.log("Success!")
+//     })
+//   } catch (error) {
+//     console.log(error)
+//   }
+// })
+
+
 uploadInput.addEventListener("change", (e) => {
   files = e.target.files;
   filesText.textContent = files.length + " files found";
-
   state.selectedFolder = files;
 });
 
@@ -138,15 +153,11 @@ function updateUploadBtn() {
 document.addEventListener("change", (e) => {
   if (e.target.matches("#selectfolder")) {
     updateUploadBtn();
-    console.log(state.selectedFolder);
-    console.log("clicado");
   }
 })
 
 document.addEventListener("click", (e) => {
   if (e.target.matches("#SelectSnapBtn")) {
     updateUploadBtn();
-    console.log(state.selectedSnapshot);
-    console.log("mudados");
   }
 });

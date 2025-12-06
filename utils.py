@@ -22,7 +22,6 @@ def save_snapshot(data):
 
   return path
 
-
 def analyze_song(path):
 
   audio = File(path)
@@ -40,9 +39,12 @@ def analyze_song(path):
 
   return info
 
-
 def compare_folders(snapshot):
-  pass
+  with open(f"snapshots/{snapshot}.json", "w") as s:
+    print(s)
+    pass
+  # TODO - SIMPLES, LÊ SNAPSHOT E RODA UMA FUNÇÃO DE COMPARAÇÃO POR HASH (TALVEZ COMPARAÇÃO COMPOSTA, POR NOME, DURAÇÃO TAMBÉM, NÃO SEI)
+# TODO - SE MÚSICA X EXISTIR NO SNAPSHOT ANTERIOR, MUDA STATUS PARA EXISTENTE/NEW ETC...
 
 
 

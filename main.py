@@ -1,5 +1,5 @@
 from flask import Flask, render_template, url_for, request, redirect
-from utils import hash_song, save_snapshot, analyze_song
+from utils import hash_song, save_snapshot, analyze_song, compare_folders
 import os
 import json
 
@@ -31,28 +31,28 @@ def index():
 def check_folder():
 
   temp_files = []
-# TODO CRIAR UM "ESTADO" UMA VARIAVEL QUE MONITORA QUANDO ESTÁ CARREGANDO PARA ENVIAR E RENDERIZAR O LOADING NO FRONTEND
 
+  # TODO - SEI LÁ, PORRA NENHUMA FUNCIONA AQUI, EU NÃO SEI OQUE ESTOU FAZENDO NEM SE ESTOU APRENDENDO ALGUMA MERDA
 
   if request.method == 'POST':
-    files = request.files.getlist('selectfolder')
-
+    snapshot = request.form['selectsnapshot']
+    newFolder = request.files.getlist("selectfolder")
+    compare_folders(snapshot)
     try:
-      for file in files:
+      for file in newFolder:
         temp_files.append(file)
         # file.read() # RETORNA OS BYTES DO ARQUIVO
 
-        newSong = analyze_song(file)
-
-        folder.append(newSong)
+        formattedSong = analyze_song(file)
+        folder.append(formattedSong)
     except Exception as e:
       print('An exception occurred when analyzing the folder', e)
 
     save_snapshot(folder)
 
   return redirect('/')
+# TODO - MUDAR PARA ENVIAR A NOVA "PÁGINA" COM A TABELA DE ARQUIVOS COMPARADOS
 
-# TODO - SE MÚSICA X EXISTIR NO SNAPSHOT ANTERIOR, MUDA STATUS PARA EXISTENTE/NEW ETC...
 
 
 @app.route('/choose-snapshot', methods=['POST', 'GET'])

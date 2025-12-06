@@ -5,10 +5,10 @@ block body %}
 
   <div class="formsContainer">
     <form
+      id="folderForm"
       action="/check-folder"
       method="post"
       enctype="multipart/form-data"
-      id="folderForm"
     >
       <label for="selectfolder">
         Selecione a pasta:
@@ -22,25 +22,27 @@ block body %}
         />
       </label>
       <span class="files"></span>
-      
-      <input type="button" value="Selecionar snapshot" onclick="getSnapshots()" />
-      <input type="hidden" value="" id="selectsnapshot" />
 
-      <input type="submit" value="Upload Folder" name="submitBtn" id="submitBtn" />
+      <input
+        type="button"
+        value="Selecionar snapshot"
+        onclick="getSnapshots()"
+      />
+      <input type="hidden" id="selectsnapshot" name="selectsnapshot" />
+
+      <input type="submit" value="Upload Folder" id="submitBtn" disabled />
       <!-- TODO - ADICIONAR LOADING ENQUANTO ELE FAZ UPLOAD DAS MÚSICAS/PASTA -->
     </form>
 
-  <!-- TODO - FAZER ESSE BOTÃO RENDERIZAR OUTRA PÁGINA COM CARDS DE CADA SNAPSHOT, E QUANDO SELECIONADO VOLTA PARA CÁ -->
-  <!-- TODO - TAMBÉM ADICIONAR MARCAS DE VERIFICADO PARA CADA ETAPA, FAZER UPLOAD DA PASTA, SELECIONAR SNAPSHOT ETC... -->
+    <!-- TODO - TAMBÉM ADICIONAR MARCAS DE VERIFICADO PARA CADA ETAPA, FAZER UPLOAD DA PASTA, SELECIONAR SNAPSHOT ETC... -->
 
-  
-  <!-- TODO - IF ALGO QUE MONITORA SE A SNAPSHOT FOI ESCOLHIDA E A PASTA ENVIADA FOR TRUE ENTÃO ELE DAI SIM RENDERIZA A TABELA -->
-  {% if songs|length < 1 %} {% else %}
+    <!-- TODO - IF ALGO QUE MONITORA SE A SNAPSHOT FOI ESCOLHIDA E A PASTA ENVIADA FOR TRUE ENTÃO ELE DAI SIM RENDERIZA A TABELA -->
+    {% if songs|length < 1 %} {% else %}
 
-  <!-- <input type="button" value="back" id="back"/>  -->
-  <!-- TODO - TERMINAR ISSO DEPOIS -->
+    <!-- <input type="button" value="back" id="back"/>  -->
+    <!-- TODO - TERMINAR ISSO DEPOIS - BOTÃO DE VOLTAR -->
 
-  <!-- <table id="table">
+    <!-- <table id="table">
     <tr>
       <td>Path</td>
       <td>Name</td>
@@ -71,9 +73,9 @@ block body %}
     </tr>
     {% endfor %}
   </table> -->
-  <!-- TODO - CONTINUAR TRABALHANDO A PARTE DE OPÇÕES DEPENDENDO O STATUS -->
-  {% endif %}
+    {% endif %}
   </div>
 
-<script src="{{ url_for('static', filename='scripts/index.js') }}"></script>
-{% endblock %}
+  <script src="{{ url_for('static', filename='scripts/index.js') }}"></script>
+  {% endblock %}
+</div>
