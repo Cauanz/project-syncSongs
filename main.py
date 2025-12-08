@@ -7,32 +7,18 @@ app = Flask(__name__)
 
 folder = []
 old_snapshot = ""
+comparedSongs = None
 
 @app.route('/')
 def index():
-  songs = []
-  seen_hashes = set()
 
-  for song in folder:
-    hash = song['hash']
-
-    if hash in seen_hashes:
-      song['status'] = 'Duplicated'
-      song['options'] = 'Remove'
-      songs.append(song)
-      continue
-
-    seen_hashes.add(hash)
-    songs.append(song)
   # TODO - CONTINUAR ESSE FILTRO (PROVAVELMENTE VAI FICAR MAIOR GANHANDO E ADICIONANDO FUNÇÕES PARA EXCLUIR DUPLICATAS (NO FRONTEND), ETC...)
-  return render_template('home.html', songs=songs)
+  return render_template('home.html', comparedSongs=comparedSongs)
 
 @app.route('/check-folder', methods=["POST"])
 def check_folder():
 
   temp_files = []
-
-  # TODO - SEI LÁ, PORRA NENHUMA FUNCIONA AQUI, EU NÃO SEI OQUE ESTOU FAZENDO NEM SE ESTOU APRENDENDO ALGUMA MERDA
 
   if request.method == 'POST':
     snapshot = request.form['selectsnapshot']
@@ -54,8 +40,9 @@ def check_folder():
     except Exception as e:
       print('An exception occurred when analyzing the folder', e)
 
-
-  return redirect('/')
+  # TODO - TERMINAR ESSE REDIRECT PARA EXIBIR AS MÚSICAS E A TABELA AGORA
+  # return redirect(url_for('static', comparedSongs=comparedSongs))
+  # return render_template('home.html', comparedSongs=comparedSongs)
 # TODO - MUDAR PARA ENVIAR A NOVA "PÁGINA" COM A TABELA DE ARQUIVOS COMPARADOS
 
 
