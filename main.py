@@ -37,7 +37,12 @@ def check_folder():
   if request.method == 'POST':
     snapshot = request.form['selectsnapshot']
     newFolder = request.files.getlist("selectfolder")
-    compare_folders(snapshot)
+    
+    comparedSongs = compare_folders(snapshot, newFolder)
+
+    print(comparedSongs)
+    
+    # * PARTE QUE SALVA ARQUIVO/CRIA NOVO SNAPSHOT
     try:
       for file in newFolder:
         temp_files.append(file)
@@ -45,10 +50,10 @@ def check_folder():
 
         formattedSong = analyze_song(file)
         folder.append(formattedSong)
+        # save_snapshot(folder)
     except Exception as e:
       print('An exception occurred when analyzing the folder', e)
 
-    save_snapshot(folder)
 
   return redirect('/')
 # TODO - MUDAR PARA ENVIAR A NOVA "PÁGINA" COM A TABELA DE ARQUIVOS COMPARADOS

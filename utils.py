@@ -39,11 +39,29 @@ def analyze_song(path):
 
   return info
 
-def compare_folders(snapshot):
-  with open(f"snapshots/{snapshot}.json", "w") as s:
-    print(s)
-    pass
-  #! DETALHE, TODA VEZ QUE FAÇO UPLOAD EU ACHO QUE ESSA FUNÇÃO ESTÁ SUMINDO COM O CONTEUDO DO SNAPSHOT SELECIONADO
+def compare_folders(snapshot, folder):
+
+  temp_folder = []
+  for song in folder:
+    formattedSong = analyze_song(song)
+    temp_folder.append(formattedSong)
+  
+
+
+  with open(f"snapshots/{snapshot}.json", "r") as s:
+    data = json.load(s)
+    for snap_file in data:
+      # ! ACHO QUE O LOOP ESTÁ ERRADO, NÓS ITERAMOS SOBRE TODA A NOVA PASTA ANTES DE MUDAR PARA SEGUNDA MÚSICA DO SNAPSHOT
+      for new_file in temp_folder:
+        
+        if snap_file["hash"] == new_file["hash"]:
+          new_file['status'] = 'Unchanged'
+        else:
+          new_file['status'] = 'New'
+        # TODO - AINDA NÃO SEI OQUE CLASSIFICARIA UMA MÚSICA COMO "UPDATED"
+        s.close()
+  return temp_folder
+
   # TODO - SIMPLES, LÊ SNAPSHOT E RODA UMA FUNÇÃO DE COMPARAÇÃO POR HASH (TALVEZ COMPARAÇÃO COMPOSTA, POR NOME, DURAÇÃO TAMBÉM, NÃO SEI)
 # TODO - SE MÚSICA X EXISTIR NO SNAPSHOT ANTERIOR, MUDA STATUS PARA EXISTENTE/NEW ETC...
 
@@ -51,7 +69,7 @@ def compare_folders(snapshot):
 
 
 
-
+# * STATUS DOS ARQUIVOS PODE SER MAPPED/NEW/UNCHANGED/UPDATED
 
 
 
