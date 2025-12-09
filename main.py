@@ -7,7 +7,7 @@ app = Flask(__name__)
 
 folder = []
 old_snapshot = ""
-comparedSongs = None
+comparedSongs = []
 
 @app.route('/')
 def index():
@@ -25,8 +25,6 @@ def check_folder():
     newFolder = request.files.getlist("selectfolder")
     
     comparedSongs = compare_folders(snapshot, newFolder)
-
-    print(comparedSongs)
     
     # * PARTE QUE SALVA ARQUIVO/CRIA NOVO SNAPSHOT
     try:
@@ -40,9 +38,7 @@ def check_folder():
     except Exception as e:
       print('An exception occurred when analyzing the folder', e)
 
-  # TODO - TERMINAR ESSE REDIRECT PARA EXIBIR AS MÚSICAS E A TABELA AGORA
-  # return redirect(url_for('static', comparedSongs=comparedSongs))
-  # return render_template('home.html', comparedSongs=comparedSongs)
+  return render_template('home.html', comparedSongs=comparedSongs)
 # TODO - MUDAR PARA ENVIAR A NOVA "PÁGINA" COM A TABELA DE ARQUIVOS COMPARADOS
 
 

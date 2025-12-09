@@ -3,23 +3,28 @@ block body %}
 <div class="content">
   <h1>SyncSongs</h1>
 
-  {% if comparedSongs %}
-    <table id="table">
-      <tr>
-        <td>Path</td>
-        <td>Name</td>
-        <td>Hash</td>
-        <td>Status</td>
-      </tr>
-      {% for song in comparedSongs %}
-      <tr>
-        <td>{{ song.pathname }}</td>
-        <td>{{ song.filename }}</td>
-        <td>{{ song.hash }}</td>
-        <td>{{ song.status }}</td>
-      </tr>
-      {% endfor %}
-    </table>
+  {% if comparedSongs|length > 0%}
+  <div class="tableContainer">
+    <div class="backBtn">
+      <a href="/">Voltar</a>
+    </div>
+      <table id="table">
+        <tr>
+          <td>Path</td>
+          <td>Name</td>
+          <td>Hash</td>
+          <td>Status</td>
+        </tr>
+        {% for song in comparedSongs %}
+        <tr>
+          <td>{{ song.pathname }}</td>
+          <td>{{ song.filename }}</td>
+          <td>{{ song.hash }}</td>
+          <td>{{ song.status }}</td>
+        </tr>
+        {% endfor %}
+      </table>
+    </div>
   {% else %}
   <div class="formsContainer">
     <form

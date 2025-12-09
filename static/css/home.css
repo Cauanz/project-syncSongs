@@ -36,6 +36,28 @@ form {
   justify-content: center;
 }
 
+.tableContainer {
+  width: 80rem;
+  height: 20rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.backBtn {
+  width: 100%;
+  margin-left: 10px;
+}
+
+.backBtn a {
+  text-decoration: none;
+  color: lightblue;
+  padding: 5px;
+  border: 1px solid black;
+}
+
 table,
 th,
 td {
