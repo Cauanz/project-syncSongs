@@ -161,3 +161,15 @@ document.addEventListener("click", (e) => {
     updateUploadBtn();
   }
 });
+
+document.addEventListener('change', (e) => {
+  
+  if(e.target.matches("#selectfolder")) {
+    document.querySelector("#selectfolderLabel").style.borderColor = "green";
+  }
+
+  // TODO - PENSAR MELHOR NESSE SISTEMA DE MUDAR COR DO BORDER, NÃO ESTÁ FUNCIONANDO PARA O BOTÃO DA SNAPSHOT
+  if (e.target.matches("#SelectSnapBtn")) {
+    document.querySelector("#snapshotInputLabel").style.borderColor = "green";
+  }
+})

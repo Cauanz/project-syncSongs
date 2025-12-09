@@ -33,7 +33,7 @@ block body %}
       method="post"
       enctype="multipart/form-data"
     >
-      <label for="selectfolder">
+      <label for="selectfolder" id="selectfolderLabel">
         Selecione a pasta:
         <input
           type="file"
@@ -43,14 +43,18 @@ block body %}
           id="selectfolder"
           required
         />
+        <span class="files"></span>
       </label>
-      <span class="files"></span>
 
-      <input
+      <label for="snapshotInput" id="snapshotInputLabel">
+
+        <input
         type="button"
         value="Selecionar snapshot"
         onclick="getSnapshots()"
-      />
+        id="snapshotInput"
+        />
+      </label>
       <input type="hidden" id="selectsnapshot" name="selectsnapshot" />
 
       <input type="submit" value="Upload Folder" id="submitBtn" disabled />
