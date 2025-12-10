@@ -22,14 +22,27 @@ let snapListenerAdded = false;
 
 //* FUNÇÃO QUE É CHAMADA PARA REQUISITAR SNAPSHOTS E CRIAR CARDS/RENDERIZAR ELES
 async function getSnapshots() {
+
+  if(!state.selectedFolder) {
+    alert("Voce deve selecionar uma pasta primeiro")
+    return;
+  }
+
+  const folderPath = state.selectedFolder[0].webkitRelativePath.split("/")[0]
+  const path = await fetch("/choose-snapshot", {
+    method: "POST",
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ folderPath })
+  });
+
+
   const snaps = await fetch("/choose-snapshot", {
     method: 'GET'
   })
   const res = await snaps.json();
-  console.log(res)
 
-
-  
   if(res) {
     document.querySelector(".formsContainer").style.display = "None";
 
@@ -39,10 +52,19 @@ async function getSnapshots() {
     // TODO - MODIFICAR ISSO PARA BATER COM O OBJETO QUE É ENVIADO AGORA
     //* FORMATO DE CADA SNAPSHOT: [{'pathname': 'musicas2', 'snapshot': '2025-12-08T10-53-16.148230.json'}...]
     // TODO - LEMBRAR QUE SÓ EXIBIREMOS OS SNAPSHOTS ONDE A PASTAS/PATHNAME FOR O MESMO QUE A PASTA QUE FOI "UPLOADED"
-    for (let i = 1; i < res.length; i++) {
-      let split = res[i].split("T");
+
+    for (let i = 0; i < res.length; i++) {
+
+      // if(res)
+
+
+
+
+      let split = res[i].snapshot.split("T");
       const date = new Date(
-        split[0] + "T" + split[1].replaceAll("-", ":").replace(".json", "")
+        split[0] +
+          "T" +
+          split[1].snapshot.replaceAll("-", ":").replace(".json", "")
       );
       const formatted = date.toLocaleString();
 
@@ -51,7 +73,7 @@ async function getSnapshots() {
       snapCard.classList.add("snapCard");
       snapCard.id = `card${i}`;
       snapCard.name = "cards";
-      snapCard.value = res[i].replace(".json", "");
+      snapCard.value = res[i].snapshot.replace(".json", "");
       snapCard.hidden = true;
 
       const label = document.createElement("label");
@@ -159,25 +181,14 @@ function updateUploadBtn() {
 document.addEventListener("change", (e) => {
   if (e.target.matches("#selectfolder")) {
     updateUploadBtn();
+    document.querySelector("#selectfolderLabel").style.borderColor = "green";
+    state.selectedFolder = document.querySelector("#selectfolder").files
   }
 })
 
 document.addEventListener("click", (e) => {
   if (e.target.matches("#SelectSnapBtn")) {
     updateUploadBtn();
-  }
-});
-
-document.addEventListener('change', (e) => {
-  
-  if(e.target.matches("#selectfolder")) {
-    document.querySelector("#selectfolderLabel").style.borderColor = "green";
-  }
-})
-
-document.addEventListener('click', (e) => {
-  // TODO - PENSAR MELHOR NESSE SISTEMA DE MUDAR COR DO BORDER, NÃO ESTÁ FUNCIONANDO PARA O BOTÃO DA SNAPSHOT
-  if (e.target.matches("#SelectSnapBtn")) {
     document.querySelector("#snapshotInputLabel").style.borderColor = "green";
   }
-})
+});

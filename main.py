@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for, request, redirect
+from flask import Flask, render_template, url_for, request, redirect, Response
 from utils import hash_song, save_snapshot, analyze_song, compare_folders
 import os
 import json
@@ -44,6 +44,12 @@ def check_folder():
 @app.route('/choose-snapshot', methods=['POST', 'GET'])
 def choose_snapshot():
 
+
+  if request.method == 'POST':
+    folder_path = request.get_json()
+    return Response(status=204)
+
+
   if request.method == 'GET':
     files = os.listdir('snapshots')
     new_list = []
@@ -52,6 +58,8 @@ def choose_snapshot():
       with open(f"snapshots/{snapshot}", "r") as s:
         file = json.load(s)
         for snap in file:
+          # TODO - TERMINAR ISSO, ELE PEGA O FOLDERPATH PASSADO DA PASTA SELECIONADA NO FRONT, RECEBE AQUI, E ELE SÓ ENVIA OS SNAPSHOTS QUE SÃO DA MESMA PASTA UPLOADED
+          # if snap['pathname'] == folder_path['folderPath']:
           new_file = {"pathname": snap['pathname'], "snapshot": snapshot}
       new_list.append(new_file)
       
