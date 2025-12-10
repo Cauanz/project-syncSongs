@@ -11,8 +11,6 @@ comparedSongs = []
 
 @app.route('/')
 def index():
-
-  # TODO - CONTINUAR ESSE FILTRO (PROVAVELMENTE VAI FICAR MAIOR GANHANDO E ADICIONANDO FUNÇÕES PARA EXCLUIR DUPLICATAS (NO FRONTEND), ETC...)
   return render_template('home.html', comparedSongs=comparedSongs)
 
 @app.route('/check-folder', methods=["POST"])
@@ -48,7 +46,16 @@ def choose_snapshot():
 
   if request.method == 'GET':
     files = os.listdir('snapshots')
-    return json.dumps(files)
+    new_list = []
+
+    for snapshot in files:
+      with open(f"snapshots/{snapshot}", "r") as s:
+        file = json.load(s)
+        for snap in file:
+          new_file = {"pathname": snap['pathname'], "snapshot": snapshot}
+      new_list.append(new_file)
+      
+    return json.dumps(new_list)
   redirect('/')
 
 

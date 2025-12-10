@@ -8,13 +8,15 @@ block body %}
     <div class="backBtn">
       <a href="/">Voltar</a>
     </div>
-      <table id="table">
-        <tr>
-          <td>Path</td>
-          <td>Name</td>
-          <td>Hash</td>
-          <td>Status</td>
-        </tr>
+      <div class="tableContent">
+
+        <table id="table">
+          <tr>
+            <td>Path</td>
+            <td>Name</td>
+            <td>Hash</td>
+            <td>Status</td>
+          </tr>
         {% for song in comparedSongs %}
         <tr>
           <td>{{ song.pathname }}</td>
@@ -24,6 +26,7 @@ block body %}
         </tr>
         {% endfor %}
       </table>
+    </div>
     </div>
   {% else %}
   <div class="formsContainer">
@@ -64,43 +67,6 @@ block body %}
     <!-- TODO - TAMBÉM ADICIONAR MARCAS DE VERIFICADO PARA CADA ETAPA, FAZER UPLOAD DA PASTA, SELECIONAR SNAPSHOT ETC... -->
 
     <!-- TODO - IF ALGO QUE MONITORA SE A SNAPSHOT FOI ESCOLHIDA E A PASTA ENVIADA FOR TRUE ENTÃO ELE DAI SIM RENDERIZA A TABELA -->
-    {% if songs|length < 1 %} {% else %}
-
-    <!-- <input type="button" value="back" id="back"/>  -->
-    <!-- TODO - TERMINAR ISSO DEPOIS - BOTÃO DE VOLTAR -->
-
-    <!-- <table id="table">
-    <tr>
-      <td>Path</td>
-      <td>Name</td>
-      <td>Hash</td>
-      <td>Status</td>
-      <td>Options</td>
-    </tr>
-    {% for song in songs %}
-    <tr>
-      <td>{{ song.pathname }}</td>
-      <td>{{ song.filename }}</td>
-      <td>{{ song.hash }}</td>
-      {% if song.status == 'Mapped' %}
-      <td class="mappedSong">{{ song.status }}</td>
-      {% endif %}
-      {% if song.status == 'Duplicated' %}
-      <td class="duplicatedSong">{{ song.status }}</td>
-      {% endif %}
-      {% if song.status == 'New' %}
-      <td class="newSong">{{ song.status }}</td>
-      {% endif %}
-      {% if song.status == 'Removed' %}
-      <td class="removedSong">{{ song.status }}</td>
-      {% endif %}
-      {% if song.options %}
-      <td>{{ song.options }}</td>
-      {% endif %}
-    </tr>
-    {% endfor %}
-  </table> -->
-    {% endif %}
   </div>
   {% endif %}
   <script src="{{ url_for('static', filename='scripts/index.js') }}"></script>

@@ -1,6 +1,7 @@
 # .gitignore básico para projetos Python
 
 /músicas/
+/snapshots/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

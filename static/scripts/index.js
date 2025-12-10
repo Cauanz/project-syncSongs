@@ -26,45 +26,51 @@ async function getSnapshots() {
     method: 'GET'
   })
   const res = await snaps.json();
+  console.log(res)
+
+
   
   if(res) {
-    document.querySelector(".formsContainer").style.display = 'None';
+    document.querySelector(".formsContainer").style.display = "None";
 
     const cardsContainer = document.createElement("div");
     cardsContainer.classList.add("cardsContainer");
 
-    for (let i = 0; i < res.length; i++) {
-      let split = res[i].split('T')
+    // TODO - MODIFICAR ISSO PARA BATER COM O OBJETO QUE É ENVIADO AGORA
+    //* FORMATO DE CADA SNAPSHOT: [{'pathname': 'musicas2', 'snapshot': '2025-12-08T10-53-16.148230.json'}...]
+    // TODO - LEMBRAR QUE SÓ EXIBIREMOS OS SNAPSHOTS ONDE A PASTAS/PATHNAME FOR O MESMO QUE A PASTA QUE FOI "UPLOADED"
+    for (let i = 1; i < res.length; i++) {
+      let split = res[i].split("T");
       const date = new Date(
         split[0] + "T" + split[1].replaceAll("-", ":").replace(".json", "")
       );
       const formatted = date.toLocaleString();
 
       const snapCard = document.createElement("input");
-      snapCard.type = 'radio'
+      snapCard.type = "radio";
       snapCard.classList.add("snapCard");
-      snapCard.id = `card${i}`
-      snapCard.name = "cards"
+      snapCard.id = `card${i}`;
+      snapCard.name = "cards";
       snapCard.value = res[i].replace(".json", "");
       snapCard.hidden = true;
 
       const label = document.createElement("label");
       label.htmlFor = `card${i}`;
-      label.classList.add("card")
+      label.classList.add("card");
       label.textContent = formatted;
-      
+
       cardsContainer.appendChild(snapCard);
       cardsContainer.appendChild(label);
       document.querySelector(".content").appendChild(cardsContainer);
     }
 
-    const btn = document.createElement('input');
-    btn.type = 'button';
-    btn.value = 'Selecionar'
+    const btn = document.createElement("input");
+    btn.type = "button";
+    btn.value = "Selecionar";
     btn.id = "SelectSnapBtn";
     btn.onclick = selectSnap();
     cardsContainer.appendChild(btn);
-    
+
     // TODO - NÃO SEI COMO FAZER ISSO NEM OQUE FAZER :(
     // res.forEach(snap => {
     //   const snapCard = document.createElement('div');
@@ -167,7 +173,9 @@ document.addEventListener('change', (e) => {
   if(e.target.matches("#selectfolder")) {
     document.querySelector("#selectfolderLabel").style.borderColor = "green";
   }
+})
 
+document.addEventListener('click', (e) => {
   // TODO - PENSAR MELHOR NESSE SISTEMA DE MUDAR COR DO BORDER, NÃO ESTÁ FUNCIONANDO PARA O BOTÃO DA SNAPSHOT
   if (e.target.matches("#SelectSnapBtn")) {
     document.querySelector("#snapshotInputLabel").style.borderColor = "green";
