@@ -1,15 +1,5 @@
 
 
-// TODO - TERMINAR ISSO DEPOIS, BOTÃO DE VOLTAR
-// let previousPageBtn = document.querySelector("#back")
-// previousPageBtn.addEventListener('click', (e) => {
-//   const form = document.querySelector('#folderForm');
-//   const table = document.querySelector("#table");
-
-//   form.style.display = 'flex';
-//   table.style.display = "None";
-// })
-
 const state = {
   selectedFolder: null,
   selectedSnapshot: null,
@@ -48,23 +38,14 @@ async function getSnapshots() {
 
     const cardsContainer = document.createElement("div");
     cardsContainer.classList.add("cardsContainer");
-
-    // TODO - MODIFICAR ISSO PARA BATER COM O OBJETO QUE É ENVIADO AGORA
     //* FORMATO DE CADA SNAPSHOT: [{'pathname': 'musicas2', 'snapshot': '2025-12-08T10-53-16.148230.json'}...]
-    // TODO - LEMBRAR QUE SÓ EXIBIREMOS OS SNAPSHOTS ONDE A PASTAS/PATHNAME FOR O MESMO QUE A PASTA QUE FOI "UPLOADED"
 
     for (let i = 0; i < res.length; i++) {
-
-      // if(res)
-
-
-
-
       let split = res[i].snapshot.split("T");
       const date = new Date(
         split[0] +
           "T" +
-          split[1].snapshot.replaceAll("-", ":").replace(".json", "")
+          split[1].replaceAll("-", ":").replace(".json", "")
       );
       const formatted = date.toLocaleString();
 
@@ -94,18 +75,11 @@ async function getSnapshots() {
     cardsContainer.appendChild(btn);
 
     // TODO - NÃO SEI COMO FAZER ISSO NEM OQUE FAZER :(
-    // res.forEach(snap => {
-    //   const snapCard = document.createElement('div');
-    //   snapCard.classList.add("snapCard");
-    //   const txtLink = document.createElement('a');
-    //   txtLink.textContent = snap;
-    //   txtLink.textContent = snap;
-    //   snapCard.appendChild(txtLink);
-    //   document.querySelector('.content').appendChild(snapCard);
-    // });
   }
 
 }
+
+// TODO - CONTINUAR FUNCIONALIDADE DE QUANDO SALVAR SNAPSHOT E AS OPÇÕES NA TABELA NAS MÚSICAS DUPLICADAS
 
 //* FUNÇÃO QUE É CHAMADA QUANDO O BOTÃO DE SELECIONAR SNAPSHOT É PRESSIONADO, ADICIONANDO O VALOR/INDEX DO SNAP A VARIAVEL/STATE SELECTEDSNAPSHOT
 function selectSnap() {
@@ -136,36 +110,6 @@ function selectSnap() {
     }
   });
 }
-
-// TODO - TERMINAR AGORA, E VER SE ENVIA TUDO, ADICIONAR VERIFICAÇÕES QUE TODOS TEM QUE SER SELECIONADOS ETC...
-// * CAPTURA O INPUT OCULTO PARA ENVIAR O SNAPSHOT SELECIONADO JUNTO
-// document.querySelector("#folderForm").addEventListener("submit", function (e) {
-//   let hidden = document.querySelector("#selectsnapshot");
-//   hidden.value = selectedSnapshot;
-// });
-
-
-
-
-// document.getElementById('folderForm').addEventListener('submit', (e) => {
-//   e.preventDefault();
-//   console.log(e.target);
-//   const formData = new FormData(e.target);
-
-//   try {
-//     fetch('/check-folder', {
-//       method: 'POST',
-//       body: formData
-//     })
-//     .then(response => response.json())
-//     .then(data => {
-//       console.log("Success!")
-//     })
-//   } catch (error) {
-//     console.log(error)
-//   }
-// })
-
 
 uploadInput.addEventListener("change", (e) => {
   files = e.target.files;
