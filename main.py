@@ -22,22 +22,22 @@ def check_folder():
   if request.method == 'POST':
     snapshot = request.form['selectsnapshot']
     newFolder = request.files.getlist("selectfolder")
-    snapshot_true = request.form['savesnapshot']
+    snapshot_true = request.form.get('savesnapshot')
     
-    comparedSongs = compare_folders(snapshot, newFolder)
-    
-    # * PARTE QUE SALVA ARQUIVO/CRIA NOVO SNAPSHOT
+    analyzed_songs = [analyze_song(file) for file in newFolder]
+    comparedSongs = compare_folders(snapshot, analyzed_songs)
+
+    print(newFolder)
+
+    #* PARTE QUE SALVA ARQUIVO/CRIA NOVO SNAPSHOT
     if snapshot_true:
       try:
         for file in newFolder:
           temp_files.append(file)
           # # file.read() # RETORNA OS BYTES DO ARQUIVO
 
-          formattedSong = analyze_song(file)
-          folder.append(formattedSong)
-          print(folder)
-          # save_snapshot(folder)
-          # TODO - PROBLEMA AQUI, ELE ESTÁ CRIANDO SNAPSHOTS PARA QUANTIDADE DE MÚSICAS NA PASTA, MAS NÃO ESTÁ SALVANDO ADEQUADAMENTE (MAS CRIAR VÁRIOS SNAPSHOTS TAMBÉM ESTÁ ERRADO)
+        folder.extend(analyzed_songs)
+        save_snapshot(folder)
       except Exception as e:
         print('An exception occurred when analyzing the folder', e)
 

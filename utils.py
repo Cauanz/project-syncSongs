@@ -37,11 +37,13 @@ def analyze_song(path):
       "status": "Mapped"
   }
 
+  # print(info)
+
   return info
 
 def compare_folders(snapshot, folder):
 
-  temp_folder = [analyze_song(song) for song in folder]
+  # temp_folder = [analyze_song(song) for song in folder]
 
   with open(f"snapshots/{snapshot}.json", "r") as s:
     data = json.load(s)
@@ -50,7 +52,7 @@ def compare_folders(snapshot, folder):
     snapshot_hashes = {song['hash'] for song in data}
 
 
-    for new_file in temp_folder:
+    for new_file in folder:
       hash = new_file['hash']
 
       if hash in snapshot_hashes:
