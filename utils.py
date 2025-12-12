@@ -3,7 +3,7 @@ import os
 from datetime import datetime
 import json
 from mutagen import File
-from models import Snapshot, db
+from models import Snapshot, Song, db
 
 def hash_song(path):
   hasher = hashlib.sha256()
@@ -13,6 +13,7 @@ def hash_song(path):
 
   return hasher.hexdigest()
 
+# TODO - RESOLVER PROBLEMA DE NÃO CONSEGUIR CRIAR DB E CONTINUAR A TAREFA DE BAIXO
 # TODO - AGORA ELE NA VERDADE TEM QUE ENVIAR O ID DELE PARA FUNÇÃO QUE CRIA OS SONGS NO DB, OU EU POSSO CRIAR AQUI E CHAMAR JUNTO, MAS TEM QUE VER COMO FICARIA NO MAIN.PY
 def save_snapshot(data):
   # os.makedirs('snapshots', exist_ok=True)
@@ -22,6 +23,12 @@ def save_snapshot(data):
   snapshot = Snapshot(name=name)
   db.session.add(snapshot)
   db.session.commit()
+
+  for song in data:
+    print(song)
+    # new_song = Song(
+
+    # )
 
   # with open(path, 'w', encoding="utf-8") as f:
   #   json.dump(data, f, indent=2)
