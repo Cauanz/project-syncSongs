@@ -23,6 +23,11 @@ block body %}
           <td>{{ song.filename }}</td>
           <td>{{ song.hash }}</td>
           <td>{{ song.status }}</td>
+          {% if song.status == "Duplicated" %}
+            <td>
+              <input type="button" value="Remover" onclick="removeSong('{{ song.path }}')">
+            </td>
+          {% endif %}
         </tr>
         {% endfor %}
       </table>

@@ -2,13 +2,17 @@ from flask import Flask, render_template, url_for, request, redirect, Response, 
 from utils import hash_song, save_snapshot, analyze_song, compare_folders
 import os
 import json
+from models import db
 
 app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///todo.db' 
 app.secret_key = b'WNIafisu//,..gB8W,.HG0/sagb.w~-hp~wqhogb'
+db.init_app(app)
 
 folder = []
-old_snapshot = ""
 comparedSongs = []
+
+# TODO - PENSAR EM SOLUÇÃO PARA QUANDO NÃO TEM SNAPSHOTS AINDA
 
 @app.route('/')
 def index():
@@ -27,17 +31,16 @@ def check_folder():
     analyzed_songs = [analyze_song(file) for file in newFolder]
     comparedSongs = compare_folders(snapshot, analyzed_songs)
 
-    print(newFolder)
-
     #* PARTE QUE SALVA ARQUIVO/CRIA NOVO SNAPSHOT
     if snapshot_true:
       try:
         for file in newFolder:
           temp_files.append(file)
-          # # file.read() # RETORNA OS BYTES DO ARQUIVO
+          # file.read() #* RETORNA OS BYTES DO ARQUIVO
 
         folder.extend(analyzed_songs)
         save_snapshot(folder)
+
       except Exception as e:
         print('An exception occurred when analyzing the folder', e)
 

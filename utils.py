@@ -3,6 +3,7 @@ import os
 from datetime import datetime
 import json
 from mutagen import File
+from models import Snapshot, db
 
 def hash_song(path):
   hasher = hashlib.sha256()
@@ -12,15 +13,20 @@ def hash_song(path):
 
   return hasher.hexdigest()
 
+# TODO - AGORA ELE NA VERDADE TEM QUE ENVIAR O ID DELE PARA FUNÇÃO QUE CRIA OS SONGS NO DB, OU EU POSSO CRIAR AQUI E CHAMAR JUNTO, MAS TEM QUE VER COMO FICARIA NO MAIN.PY
 def save_snapshot(data):
-  os.makedirs('snapshots', exist_ok=True)
+  # os.makedirs('snapshots', exist_ok=True)
   name = datetime.now().isoformat().replace(":", "-")
-  path = f"snapshots/{name}.json"
+  # path = f"snapshots/{name}.json"
 
-  with open(path, 'w', encoding="utf-8") as f:
-    json.dump(data, f, indent=2)
+  snapshot = Snapshot(name=name)
+  db.session.add(snapshot)
+  db.session.commit()
 
-  return path
+  # with open(path, 'w', encoding="utf-8") as f:
+  #   json.dump(data, f, indent=2)
+
+  return snapshot
 
 def analyze_song(path):
 
@@ -37,13 +43,9 @@ def analyze_song(path):
       "status": "Mapped"
   }
 
-  # print(info)
-
   return info
 
 def compare_folders(snapshot, folder):
-
-  # temp_folder = [analyze_song(song) for song in folder]
 
   with open(f"snapshots/{snapshot}.json", "r") as s:
     data = json.load(s)
@@ -72,10 +74,6 @@ def compare_folders(snapshot, folder):
   # TODO - SIMPLES, LÊ SNAPSHOT E RODA UMA FUNÇÃO DE COMPARAÇÃO POR HASH (TALVEZ COMPARAÇÃO COMPOSTA, POR NOME, DURAÇÃO TAMBÉM, NÃO SEI)
 # TODO - SE MÚSICA X EXISTIR NO SNAPSHOT ANTERIOR, MUDA STATUS PARA EXISTENTE/NEW ETC...
 
-
-
-
-
 # * STATUS DOS ARQUIVOS PODE SER MAPPED/NEW/UNCHANGED/UPDATED
 
 
@@ -90,4 +88,13 @@ def compare_folders(snapshot, folder):
 
 
 
+# ! OBSOLETO, MAS SALVAR EM JSON PODE SER UTIL PARA OPERAÇÕES MENORES
+# def save_snapshot(data):
+#   os.makedirs('snapshots', exist_ok=True)
+#   name = datetime.now().isoformat().replace(":", "-")
+#   path = f"snapshots/{name}.json"
 
+#   with open(path, 'w', encoding="utf-8") as f:
+#     json.dump(data, f, indent=2)
+
+#   return path

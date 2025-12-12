@@ -136,3 +136,10 @@ document.addEventListener("click", (e) => {
     document.querySelector("#snapshotInputLabel").style.borderColor = "green";
   }
 });
+
+
+function removeSong(path) {
+
+  console.log(path)
+  console.log("Removido!")
+}
