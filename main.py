@@ -9,6 +9,9 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///todo.db'
 app.secret_key = b'WNIafisu//,..gB8W,.HG0/sagb.w~-hp~wqhogb'
 db.init_app(app)
 
+with app.app_context():
+  db.create_all()
+
 folder = []
 comparedSongs = []
 

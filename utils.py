@@ -13,8 +13,9 @@ def hash_song(path):
 
   return hasher.hexdigest()
 
-# TODO - RESOLVER PROBLEMA DE NÃO CONSEGUIR CRIAR DB E CONTINUAR A TAREFA DE BAIXO
 # TODO - AGORA ELE NA VERDADE TEM QUE ENVIAR O ID DELE PARA FUNÇÃO QUE CRIA OS SONGS NO DB, OU EU POSSO CRIAR AQUI E CHAMAR JUNTO, MAS TEM QUE VER COMO FICARIA NO MAIN.PY
+# TODO - ESTAMOS NO PROBLEMA DE CRIAR AGORA O SNAPSHOT NO DB E OS SONGS, MAS OS SONGS PRECISAM DO ID DO SNAPSHOT, ENTÃO A ARQUITETURA AQUI TAMBÉM VAI CRIAR OS SONGS (RECEBER ELES PROCESSADOS, *OQUE JÁ RECEBE)
+#! NÃO SEI SE FUNCIONA
 def save_snapshot(data):
   # os.makedirs('snapshots', exist_ok=True)
   name = datetime.now().isoformat().replace(":", "-")
@@ -26,14 +27,24 @@ def save_snapshot(data):
 
   for song in data:
     print(song)
-    # new_song = Song(
+    new_song = Song(
+      filename=song['filename'],
+      pathname=song['pathname'],
+      hash=song['hash'],
+      duration=song['duration'],
+      bitrate=song['bitrate'],
+      title=song['title'],
+      artist=song['artist'],
+      snapshot_id=snapshot.id
+    )
 
-    # )
+    db.session.add(new_song)
+    db.session.commit()
 
   # with open(path, 'w', encoding="utf-8") as f:
   #   json.dump(data, f, indent=2)
-
-  return snapshot
+  songs = Song.query.all()
+  return songs
 
 def analyze_song(path):
 
