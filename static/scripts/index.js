@@ -143,3 +143,12 @@ function removeSong(path) {
   console.log(path)
   console.log("Removido!")
 }
+
+
+async function gimmeData() {
+  
+  const req = await fetch("/gimme")
+  .then(res => res.json())
+  .then(data => console.log(data))
+
+}

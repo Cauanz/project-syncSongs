@@ -2,7 +2,7 @@ from flask import Flask, render_template, url_for, request, redirect, Response, 
 from utils import hash_song, save_snapshot, analyze_song, compare_folders
 import os
 import json
-from models import db
+from models import db, Song, Snapshot
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///todo.db' 
@@ -77,6 +77,20 @@ def choose_snapshot():
     return json.dumps(new_list)
   redirect('/')
 
+
+#* É SÓ UMA ROTA TEMPORÁRIA PARA ANALISAR DB
+@app.route("/gimme")
+def give_data():
+  try:
+    # NADA AQUI FUNCIONA
+    # songs = Song.query.all()
+    # snapshot = Snapshot.query.all()
+    # everything = songs.extend(snapshot)
+  except Exception as e:
+    print('An exception occurred', e)
+
+  songsJson = json.dumps(songs)
+  return f"{songsJson}"
 
 if __name__ == '__main__':
   app.run(debug=True)
