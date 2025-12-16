@@ -21,6 +21,7 @@ comparedSongs = []
 def index():
   return render_template('home.html', comparedSongs=comparedSongs)
 
+
 @app.route('/check-folder', methods=["POST"])
 def check_folder():
 
@@ -34,7 +35,7 @@ def check_folder():
     analyzed_songs = [analyze_song(file) for file in newFolder]
     comparedSongs = compare_folders(snapshot, analyzed_songs)
 
-    #* PARTE QUE SALVA ARQUIVO/CRIA NOVO SNAPSHOT
+    #* PARTE QUE SALVA PASTA/CRIA NOVO SNAPSHOT
     if snapshot_true:
       try:
         for file in newFolder:
@@ -50,11 +51,10 @@ def check_folder():
   return render_template('home.html', comparedSongs=comparedSongs)
 
 
-
 @app.route('/choose-snapshot', methods=['POST', 'GET'])
 def choose_snapshot():
 
-
+  #* SALVA FOLDER_PATH PARA RETORNAR SÓ SNAPSHOTS DO MESMO FOLDER 
   if request.method == 'POST':
     folder_path = request.get_json()
     session['folder_path'] = folder_path
@@ -62,35 +62,44 @@ def choose_snapshot():
 
 
   if request.method == 'GET':
-    files = os.listdir('snapshots')
+    songs = Song.query.all()
     new_list = []
 
-    for snapshot in files:
-      with open(f"snapshots/{snapshot}", "r") as s:
-        file = json.load(s)
-        for snap in file:
-          folder_path = session.get('folder_path')
-          if snap['pathname'] == folder_path['folderPath']:
-            new_file = {"pathname": snap['pathname'], "snapshot": snapshot}
-      new_list.append(new_file)
+    for song in songs:
+
+      snapshot_from_song = Snapshot.query.get_or_404(song.snapshot_id)
+
+      folder_path = session.get('folder_path')
+      if song.pathname == folder_path['folderPath']:
+        new_file = {"pathname": song.pathname, "snapshot": {"snapshot": snapshot_from_song.name, "snapshot_id": snapshot_from_song.id}}
+      new_list.append(new_file) 
       
     return json.dumps(new_list)
+
+  # if request.method == 'GET':
+  #   # files = os.listdir('snapshots')
+  #   new_list = []
+
+#     for snapshot in files:
+#       with open(f"snapshots/{snapshot}", "r") as s:
+#         file = json.load(s)
+#         for snap in file:
+#           folder_path = session.get('folder_path')
+#           if snap['pathname'] == folder_path['folderPath']:
+#             new_file = {"pathname": snap['pathname'], "snapshot": snapshot}
+#       new_list.append(new_file)
+      
+  #   return json.dumps(new_list)
   redirect('/')
 
 
-#* É SÓ UMA ROTA TEMPORÁRIA PARA ANALISAR DB
-@app.route("/gimme")
-def give_data():
-  try:
-    # NADA AQUI FUNCIONA
-    # songs = Song.query.all()
-    # snapshot = Snapshot.query.all()
-    # everything = songs.extend(snapshot)
-  except Exception as e:
-    print('An exception occurred', e)
+# TODO - TERMINAR ROTA DE REMOÇÃO DA MÚSICA
+#* LEMBRE-SE NÃO DÁ PARA USAR ID, PORQUE AS MÚSICAS NA TABELA SÃO AS DA PASTA, NÃO AS DO DB, OU SEJA SEM ID
+@app.route('/remove/<int:hash>')
+def remove_song(hash):
+  print(hash)
+  return ""
 
-  songsJson = json.dumps(songs)
-  return f"{songsJson}"
 
 if __name__ == '__main__':
   app.run(debug=True)

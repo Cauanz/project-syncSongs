@@ -32,6 +32,7 @@ async function getSnapshots() {
     method: 'GET'
   })
   const res = await snaps.json();
+  console.log(res)
 
   if(res) {
     document.querySelector(".formsContainer").style.display = "None";
@@ -41,11 +42,9 @@ async function getSnapshots() {
     //* FORMATO DE CADA SNAPSHOT: [{'pathname': 'musicas2', 'snapshot': '2025-12-08T10-53-16.148230.json'}...]
 
     for (let i = 0; i < res.length; i++) {
-      let split = res[i].snapshot.split("T");
+      let split = res[i].snapshot.snapshot.split("T");
       const date = new Date(
-        split[0] +
-          "T" +
-          split[1].replaceAll("-", ":").replace(".json", "")
+        split[0] + "T" + split[1].replaceAll("-", ":").replace(".json", "")
       );
       const formatted = date.toLocaleString();
 
@@ -54,7 +53,8 @@ async function getSnapshots() {
       snapCard.classList.add("snapCard");
       snapCard.id = `card${i}`;
       snapCard.name = "cards";
-      snapCard.value = res[i].snapshot.replace(".json", "");
+      // snapCard.value = res[i].snapshot.replace(".json", "");
+      snapCard.value = res[i].snapshot.snapshot_id;
       snapCard.hidden = true;
 
       const label = document.createElement("label");
@@ -138,17 +138,13 @@ document.addEventListener("click", (e) => {
 });
 
 
-function removeSong(path) {
-
-  console.log(path)
-  console.log("Removido!")
-}
-
-
-async function gimmeData() {
+async function removeSong(path) {
   
-  const req = await fetch("/gimme")
-  .then(res => res.json())
-  .then(data => console.log(data))
-
+  const removedSong = await fetch(`/remove/${path}`, {
+    method: "POST"
+  });
+  const res = await removedSong.json()
+  console.log(path)
+  console.log(res);
+  console.log("Removido!")
 }

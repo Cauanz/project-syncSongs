@@ -14,18 +14,19 @@ block body %}
           <tr>
             <td>Path</td>
             <td>Name</td>
-            <td>Hash</td>
+            <!-- <td>Hash</td> -->
             <td>Status</td>
+            <td>Options</td>
           </tr>
         {% for song in comparedSongs %}
         <tr>
           <td>{{ song.pathname }}</td>
           <td>{{ song.filename }}</td>
-          <td>{{ song.hash }}</td>
+          <!-- <td>{{ song.hash }}</td> -->
           <td>{{ song.status }}</td>
           {% if song.status == "Duplicated" %}
             <td>
-              <input type="button" value="Remover" onclick="removeSong('{{ song.path }}')">
+              <input type="button" value="Remover" onclick="removeSong('{{ song.hash }}')">
             </td>
           {% endif %}
         </tr>
@@ -73,8 +74,6 @@ block body %}
       <input type="submit" value="Upload Folder" id="submitBtn" disabled />
       <!-- TODO - ADICIONAR LOADING ENQUANTO ELE FAZ UPLOAD DAS MÚSICAS/PASTA -->
     </form>
-
-    <input type="button" value="Chamar DB" onclick="gimmeData()">
 
     <!-- TODO - TAMBÉM ADICIONAR MARCAS DE VERIFICADO PARA CADA ETAPA, FAZER UPLOAD DA PASTA, SELECIONAR SNAPSHOT ETC... -->
 
