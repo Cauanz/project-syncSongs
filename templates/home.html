@@ -14,21 +14,13 @@ block body %}
           <tr>
             <td>Path</td>
             <td>Name</td>
-            <!-- <td>Hash</td> -->
             <td>Status</td>
-            <td>Options</td>
           </tr>
         {% for song in comparedSongs %}
         <tr>
           <td>{{ song.pathname }}</td>
-          <td>{{ song.filename }}</td>
-          <!-- <td>{{ song.hash }}</td> -->
+          <td>{{ song.title }}</td>
           <td>{{ song.status }}</td>
-          {% if song.status == "Duplicated" %}
-            <td>
-              <input type="button" value="Remover" onclick="removeSong('{{ song.hash }}')">
-            </td>
-          {% endif %}
         </tr>
         {% endfor %}
       </table>
@@ -42,7 +34,8 @@ block body %}
       method="post"
       enctype="multipart/form-data"
     >
-      <label for="selectfolder" id="selectfolderLabel">
+      <label for="selectfolder" class="step-label step-pending" id="selectfolderLabel">
+        <span class="checkmark"></span>
         Selecione a pasta:
         <input
           type="file"
@@ -55,7 +48,8 @@ block body %}
         <span class="files"></span>
       </label>
 
-      <label for="snapshotInput" id="snapshotInputLabel">
+      <label for="snapshotInput" class="step-label step-pending" id="snapshotInputLabel">
+        <span class="checkmark"></span>
 
         <input
         type="button"
@@ -74,10 +68,6 @@ block body %}
       <input type="submit" value="Upload Folder" id="submitBtn" disabled />
       <!-- TODO - ADICIONAR LOADING ENQUANTO ELE FAZ UPLOAD DAS MÚSICAS/PASTA -->
     </form>
-
-    <!-- TODO - TAMBÉM ADICIONAR MARCAS DE VERIFICADO PARA CADA ETAPA, FAZER UPLOAD DA PASTA, SELECIONAR SNAPSHOT ETC... -->
-
-    <!-- TODO - IF ALGO QUE MONITORA SE A SNAPSHOT FOI ESCOLHIDA E A PASTA ENVIADA FOR TRUE ENTÃO ELE DAI SIM RENDERIZA A TABELA -->
   </div>
   {% endif %}
   <script src="{{ url_for('static', filename='scripts/index.js') }}"></script>

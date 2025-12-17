@@ -1,5 +1,4 @@
 
-
 const state = {
   selectedFolder: null,
   selectedSnapshot: null,
@@ -79,8 +78,6 @@ async function getSnapshots() {
 
 }
 
-// TODO - CONTINUAR FUNCIONALIDADE DE QUANDO SALVAR SNAPSHOT E AS OPÇÕES NA TABELA NAS MÚSICAS DUPLICADAS
-
 //* FUNÇÃO QUE É CHAMADA QUANDO O BOTÃO DE SELECIONAR SNAPSHOT É PRESSIONADO, ADICIONANDO O VALOR/INDEX DO SNAP A VARIAVEL/STATE SELECTEDSNAPSHOT
 function selectSnap() {
   const content = document.querySelector(".content");
@@ -125,7 +122,8 @@ function updateUploadBtn() {
 document.addEventListener("change", (e) => {
   if (e.target.matches("#selectfolder")) {
     updateUploadBtn();
-    document.querySelector("#selectfolderLabel").style.borderColor = "green";
+    document.querySelector("#selectfolderLabel").classList.remove("step-pending")
+    document.querySelector("#selectfolderLabel").classList.add("step-checked");
     state.selectedFolder = document.querySelector("#selectfolder").files
   }
 })
@@ -133,18 +131,9 @@ document.addEventListener("change", (e) => {
 document.addEventListener("click", (e) => {
   if (e.target.matches("#SelectSnapBtn")) {
     updateUploadBtn();
-    document.querySelector("#snapshotInputLabel").style.borderColor = "green";
+    document.querySelector("#snapshotInputLabel").classList.remove("step-pending");
+    document
+      .querySelector("#snapshotInputLabel")
+      .classList.add("step-checked");
   }
 });
-
-
-async function removeSong(path) {
-  
-  const removedSong = await fetch(`/remove/${path}`, {
-    method: "POST"
-  });
-  const res = await removedSong.json()
-  console.log(path)
-  console.log(res);
-  console.log("Removido!")
-}

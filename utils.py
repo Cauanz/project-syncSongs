@@ -1,9 +1,8 @@
 import hashlib
-import os
 from datetime import datetime
-import json
 from mutagen import File
 from models import Snapshot, Song, db
+from uuid import uuid4
 
 def hash_song(path):
   hasher = hashlib.sha256()
@@ -48,6 +47,7 @@ def analyze_song(path):
   audio = File(path)
     
   info = {
+      "id": str(uuid4()),
       "filename": path.filename.split('/')[1],
       "pathname": path.filename.split('/')[0],
       "hash": hash_song(path),
@@ -85,6 +85,13 @@ def compare_folders(snapshot, folder):
   return comparedSongs
 
 
+
+
+
+
+
+
+
 # def compare_folders(snapshot, folder):
 
 #   with open(f"snapshots/{snapshot}.json", "r") as s:
@@ -111,18 +118,8 @@ def compare_folders(snapshot, folder):
 #   return comparedSongs
 
   # TODO - SIMPLES, LÊ SNAPSHOT E RODA UMA FUNÇÃO DE COMPARAÇÃO POR HASH (TALVEZ COMPARAÇÃO COMPOSTA, POR NOME, DURAÇÃO TAMBÉM, NÃO SEI)
-# TODO - SE MÚSICA X EXISTIR NO SNAPSHOT ANTERIOR, MUDA STATUS PARA EXISTENTE/NEW ETC...
 
 # * STATUS DOS ARQUIVOS PODE SER MAPPED/NEW/UNCHANGED/UPDATED
-
-
-
-
-
-
-
-
-
 
 
 

@@ -12,6 +12,7 @@ db.init_app(app)
 with app.app_context():
   db.create_all()
 
+
 folder = []
 comparedSongs = []
 
@@ -35,6 +36,7 @@ def check_folder():
     analyzed_songs = [analyze_song(file) for file in newFolder]
     comparedSongs = compare_folders(snapshot, analyzed_songs)
 
+    temp_files.extend(newFolder)
     #* PARTE QUE SALVA PASTA/CRIA NOVO SNAPSHOT
     if snapshot_true:
       try:
@@ -75,30 +77,7 @@ def choose_snapshot():
       new_list.append(new_file) 
       
     return json.dumps(new_list)
-
-  # if request.method == 'GET':
-  #   # files = os.listdir('snapshots')
-  #   new_list = []
-
-#     for snapshot in files:
-#       with open(f"snapshots/{snapshot}", "r") as s:
-#         file = json.load(s)
-#         for snap in file:
-#           folder_path = session.get('folder_path')
-#           if snap['pathname'] == folder_path['folderPath']:
-#             new_file = {"pathname": snap['pathname'], "snapshot": snapshot}
-#       new_list.append(new_file)
-      
-  #   return json.dumps(new_list)
   redirect('/')
-
-
-# TODO - TERMINAR ROTA DE REMOÇÃO DA MÚSICA
-#* LEMBRE-SE NÃO DÁ PARA USAR ID, PORQUE AS MÚSICAS NA TABELA SÃO AS DA PASTA, NÃO AS DO DB, OU SEJA SEM ID
-@app.route('/remove/<int:hash>')
-def remove_song(hash):
-  print(hash)
-  return ""
 
 
 if __name__ == '__main__':
